@@ -31,6 +31,8 @@
 	<p> Press the button to create an new element of type div and then add it to the container.
 		</p>
 	<button onclick="makeNewDiv()">Add value</button>
+	<button onclick="fetchitem()">Fetch</button>
+	<button onclick="zap()">Zap</button>
 
 	<div class="flex-container" id="target">
 		<div class="queue">row item 1</div>   
@@ -44,14 +46,33 @@
 	function makeNewDiv(){
 		/* make the div and its text */
 		let element = document.createElement("div")
-		element.innerHTML = document.getElementById("userIn").value
+		userIn= document.getElementById("userIn").value
+		element.innerHTML = userIn
 		element.style.color = "orange"
-		element.class="queue"
+		element.className="queue"
 
 		/* add it to the container */
 		let container = document.getElementById('target')
 		container.prepend(element)
 		
+	}
+
+	function fetchitem(){
+	
+		queueItems=document.getElementsByClassName("queue")
+		if(queueItems.length>0){
+			queueItems[queueItems.length-1].remove()
+		}
+	}
+
+	function zap(){
+		queueItems=document.getElementsByClassName("queue")
+		userIn=document.getElementById("userIn").value
+		for (element of queueItems) {
+			if(element.innerHTML==userIn){
+				element.remove()
+			}
+		}
 	}
 </script>
 </html>	
