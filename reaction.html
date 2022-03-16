@@ -9,10 +9,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="margin: 1in;">
   <h1>Reaction timer by David</h1>
-
-  <h2>Timeout - Red in 3 seconds</h2>
 
   <button type="button"
   class="btn btn-primary"
@@ -28,18 +26,34 @@
   
   <script> 
     myTime=undefined
-    date=new Date()
-    startTime=undefined
-  function startTimer() {
-    myTime=date.getSeconds()
-    setTimeout(()=>{
-      startTime=date.getSeconds()
-    }, 3000)
-  }
+    clicked=false
+    function startTime() {
+      if(!clicked){//to prevent race conditions
+        clicked=true
+        for (let index = 0; index < 4; index++) {
+          setTimeout(()=>{
+            document.getElementById("countdown").innerHTML=index
+          }, 1000*(3-index))  
+        }
+        setTimeout(()=>{
+          if (myTime==undefined){
+            document.getElementById("target").innerHTML="Too Slow"
+          }
+          else{
+            buttonTime=Date.now()
+            time=buttonTime-myTime
+            document.getElementById("target").innerHTML="Time was "+time
+            
+          }
+          myTime=undefined//reset when done
+          clicked=false
+        },3000)
+      }
+    }
 
-  function recordReact() {
-    myTime=date.getSeconds()
-  }
+    function recordReact() {
+      myTime=Date.now()
+    }
   </script>
 
 </body>
